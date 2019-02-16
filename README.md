@@ -28,3 +28,11 @@ Then on any browser go to:
 
 http://localhost:8080
 
+## Testing
+This is pre-production code, execute test.bash in order to test and do NOT go live until no monitors are triggered!
+``` bash
+./test.bash
+```
+Then review the dashboard here and make sure there are no error events:
+
+https://app.datadoghq.com/dashboard/ehd-5e5-muy/simpleserver-status-dashboard
