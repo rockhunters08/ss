@@ -32,6 +32,7 @@ class ssHandler(BaseHTTPRequestHandler):
         # on any exception, catch the error and send an error event to datadog
         # THIS SHOULD NEVER HAPPEN, ALARMS WILL FLOW AND NEED TO DEBUG!!!!!
         except:
+            print 'ERROR: this code should never be hit ... why are we?'
             self.send_error(400,'Bad Request ... how did we get here?: %s' % self.path)
             api.Metric.send(metric='simpleserver.page.views.error', points=1)
 
