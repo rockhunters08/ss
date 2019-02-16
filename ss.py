@@ -30,6 +30,7 @@ class ssHandler(BaseHTTPRequestHandler):
             return
 
         # on any exception, catch the error and send an error event to datadog
+        # THIS SHOULD NEVER HAPPEN, ALARMS WILL FLOW AND NEED TO DEBUG!!!!!
         except:
             self.send_error(404,'File Not Found: %s' % self.path)
             api.Metric.send(metric='simpleserver.page.views.error', points=1)
