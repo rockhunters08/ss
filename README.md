@@ -1,6 +1,4 @@
-<!-- TITLE/ -->
-<h1>Simple Server</h1>
-<!-- /TITLE -->
+#Simple Server
 
 Description
 ------------
