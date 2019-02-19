@@ -12,7 +12,7 @@ class ssHandler(BaseHTTPRequestHandler):
     def do_GET(self):
 
         try:
-            # we only serve the root index.html
+            # We only serve the root index.html
             if self.path=="/":
                 self.path="/index.html"
                 mimetype='text/html'
