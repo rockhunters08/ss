@@ -25,30 +25,30 @@ def main(argv):
 
         def do_GET(self):
 
-        try:
-            # We only serve the root index.html
-            if self.path=="/":
-                self.path="/index.html"
-                mimetype='text/html'
-                f = open(curdir + sep + self.path)
-                self.send_response(200)
-                self.send_header('Content-type',mimetype)
-                self.end_headers()
-                self.wfile.write(f.read())
-                f.close()
-                api.Metric.send(metric='simpleserver.page.views.success', points=1)
-            else:
-                # if this is not for the root document, send a fail event with a 404
-                send_error(404,'File Not Found: %s' % self.path)
-                api.Metric.send(metric='simpleserver.page.views.failure', points=1)
-            return
+            try:
+                # We only serve the root index.html
+                if self.path=="/":
+                    self.path="/index.html"
+                    mimetype='text/html'
+                    f = open(curdir + sep + self.path)
+                    self.send_response(200)
+                    self.send_header('Content-type',mimetype)
+                    self.end_headers()
+                    self.wfile.write(f.read())
+                    f.close()
+                    api.Metric.send(metric='simpleserver.page.views.success', points=1)
+                else:
+                    # if this is not for the root document, send a fail event with a 404
+                    send_error(404,'File Not Found: %s' % self.path)
+                    api.Metric.send(metric='simpleserver.page.views.failure', points=1)
+                return
 
             # on any exception, catch the error and send an error event to datadog
             # THIS SHOULD NEVER HAPPEN, ALARMS WILL FLOW AND NEED TO DEBUG!!!!!
-        except:
-            print 'ERROR: this code should never be hit ... why are we?'
-            self.send_error(400,'Bad Request ... how did we get here?: %s' % self.path)
-            api.Metric.send(metric='simpleserver.page.views.error', points=1)
+            except:
+                print 'ERROR: this code should never be hit ... why are we?'
+                self.send_error(400,'Bad Request ... how did we get here?: %s' % self.path)
+                api.Metric.send(metric='simpleserver.page.views.error', points=1)
 
     try:
 
