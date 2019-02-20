@@ -1,15 +1,29 @@
 #!/usr/bin/python
+#!/usr/bin/python
 from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 from os import curdir, sep, environ
 from datadog import initialize, api
+import sys, getopt
 
 PORT_NUMBER = 8080
-API_KEY = environ.get('DATADOG_API_KEY')
-APP_KEY = environ.get('DATADOG_APP_KEY')
 
-class ssHandler(BaseHTTPRequestHandler):
+def main(argv):
 
-    def do_GET(self):
+    # get datadog keys
+    try:
+        opts, args = getopt.getopt(argv,"hi:p:",["api=","app="])
+    except getopt.GetoptError:
+        print 'ss.py -i <api_key> -p <app_key>'
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ("-i", "--api"):
+            api_key = arg
+        elif opt in ("-p", "--app"):
+            app_key = arg
+
+    class ssHandler(BaseHTTPRequestHandler):
+
+        def do_GET(self):
 
         try:
             # We only serve the root index.html
@@ -29,23 +43,26 @@ class ssHandler(BaseHTTPRequestHandler):
                 api.Metric.send(metric='simpleserver.page.views.failure', points=1)
             return
 
-        # on any exception, catch the error and send an error event to datadog
-        # THIS SHOULD NEVER HAPPEN, ALARMS WILL FLOW AND NEED TO DEBUG!!!!!
+            # on any exception, catch the error and send an error event to datadog
+            # THIS SHOULD NEVER HAPPEN, ALARMS WILL FLOW AND NEED TO DEBUG!!!!!
         except:
             print 'ERROR: this code should never be hit ... why are we?'
             self.send_error(400,'Bad Request ... how did we get here?: %s' % self.path)
             api.Metric.send(metric='simpleserver.page.views.error', points=1)
 
-try:
+    try:
 
-    # some configs for talking to datadog
-    initialize(api_key=API_KEY, app_key=APP_KEY)
+        # some configs for talking to datadog
+        initialize(api_key, app_key)
 
-    # launch our webserver listening on port 8080
-    server = HTTPServer(('', PORT_NUMBER), ssHandler)
-    print 'Started httpserver on port ' , PORT_NUMBER
-    server.serve_forever()
+        # launch our webserver listening on port 8080
+        server = HTTPServer(('', PORT_NUMBER), ssHandler)
+        print 'Started httpserver on port ' , PORT_NUMBER
+        server.serve_forever()
 
-except KeyboardInterrupt:
-    print '^C received, shutting down the web server'
-    server.socket.close()
+    except KeyboardInterrupt:
+        print '^C received, shutting down the web server'
+        server.socket.close()
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
