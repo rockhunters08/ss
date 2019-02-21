@@ -38,7 +38,7 @@ def main(argv):
                     api.Metric.send(metric='simpleserver.page.views.success', points=1)
                 else:
                     # if this is not for the root document, send a fail event with a 404
-                    send_error(404,'File Not Found: %s' % self.path)
+                    self.send_error(404,'File Not Found: %s' % self.path)
                     api.Metric.send(metric='simpleserver.page.views.failure', points=1)
                 return
 
