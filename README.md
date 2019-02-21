@@ -10,7 +10,7 @@ To install from pip:
 
     pip install datadog
 
-Core server being used here
+Core server being used here:
 
     https://docs.python.org/2/library/basehttpserver.html
 
