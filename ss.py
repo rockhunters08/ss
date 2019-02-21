@@ -1,5 +1,4 @@
 #!/usr/bin/python
-#!/usr/bin/python
 from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 from os import curdir, sep, environ
 from datadog import initialize, api
@@ -46,7 +45,7 @@ def main(argv):
             # on any exception, catch the error and send an error event to datadog
             # THIS SHOULD NEVER HAPPEN, ALARMS WILL FLOW AND NEED TO DEBUG!!!!!
             except:
-                print 'ERROR: this code should never be hit ... why are we?'
+                print 'ERROR: this code should never be hit ... why are we here?'
                 self.send_error(400,'Bad Request ... how did we get here?: %s' % self.path)
                 api.Metric.send(metric='simpleserver.page.views.error', points=1)
 

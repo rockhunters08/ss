@@ -9,18 +9,16 @@ Installation
 To install from pip:
 
     pip install datadog
-    
+
 Core server being used here
 
     https://docs.python.org/2/library/basehttpserver.html
 
 ## Using
 Command line usage:
-NOTE: Make sure you set these environment variables correctly or else you will not receive any metrics when the server runs.
+
 ``` bash
-export DATADOG_API_KEY=XXXXXXXX
-export DATADOG_APP_KEY=YYYYYYYY
-python ./ss.py
+python ./ss.py -i API_KEY -p APP_KEY
 ```
 Then on any browser go to:
 
